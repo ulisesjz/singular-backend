@@ -1,0 +1,50 @@
+{
+  "name": "singular-server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "engines": {
+    "node": "22.x"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "ts-node server.ts",
+    "webpack": "webpack --config webpackdev.config.ts",
+    "build": "webpack --mode production",
+    "prestart": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "docx-parser": "^0.2.1",
+    "dotenv": "^16.5.0",
+    "express": "^4.18.2",
+    "jsdom": "^22.1.0",
+    "mongodb": "^6.3.0",
+    "multer": "^2.0.0-rc.3",
+    "node-fetch": "^3.3.2",
+    "openai": "^5.0.1",
+    "pdf-lib": "^1.17.1",
+    "xlsx": "^0.18.5",
+    "yamljs": "^0.3.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsdom": "^21.1.7",
+    "@types/multer": "^1.4.13",
+    "@types/node": "^24.0.3",
+    "@types/yamljs": "^0.2.34",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "tsc-watch": "^6.0.4",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
