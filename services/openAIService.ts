@@ -45,7 +45,7 @@ export async function createUserAssistant(
     instructions:
       instructions ||
       "You are a helpful assistant that can answer questions based on the provided documents.",
-    model: "gpt-5",
+    model: "gpt-4",
     tools: [{ type: "file_search" }],
     tool_resources: {
       file_search: {
