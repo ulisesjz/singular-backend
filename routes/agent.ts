@@ -9,7 +9,6 @@ import {
   handleAssistantReply,
 } from "../services/openAIService";
 import {
-  getAgentByPhone,
   getAgentByAssistantId,
   addMessageToThread,
   createThread,
@@ -23,28 +22,15 @@ router.post(
   "/create-agent",
   async (req: Request, res: Response): Promise<void> => {
     try {
-       const { phone, userEmail, instructions } = req.body as {
-         phone?: string;
-         userEmail: string;
-         instructions?: string;
-       };
+      const { phone, userEmail, instructions } = req.body as {
+        phone?: string;
+        userEmail: string;
+        instructions?: string;
+      };
 
-       if (!userEmail) {
-         res.status(400).json({ error: "User email is required." });
-         return;
-       }
-
-      // If phone is provided, check if agent already exists
-      if (phone) {
-        const existingAgent = await getAgentByPhone(phone);
-        if (existingAgent) {
-          res.json({
-            assistantId: existingAgent.assistantId,
-            threadId: existingAgent.threadId,
-            message: "Agent already exists",
-          });
-          return;
-        }
+      if (!userEmail) {
+        res.status(400).json({ error: "User email is required." });
+        return;
       }
 
       const { assistantId } = await createUserAssistant(
