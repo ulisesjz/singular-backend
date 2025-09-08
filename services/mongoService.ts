@@ -5,7 +5,7 @@ import { Agent, Thread, ThreadMessage } from '../types/mongoModels.types';
 dotenv.config();
 
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-const dbName = 'singularServer';
+const dbName = process.env.MONGODB_DBNAME || 'singular';
 
 // Variables globales tipadas
 let client: MongoClient | null = null;
@@ -62,12 +62,6 @@ export async function getAgentByAssistantId(assistantId: string): Promise<Agent 
     const db = await ensureConnection();
     const collection: Collection<Agent> = db.collection('agents');
     return collection.findOne({ assistantId });
-}
-
-export async function getAgentByPhone(phone: string): Promise<Agent | null> {
-    const db = await ensureConnection();
-    const collection: Collection<Agent> = db.collection('agents');
-    return collection.findOne({ phone });
 }
 
 export async function addFilesToAgent(assistantId: string, fileIds: string[]): Promise<void> {
