@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import {
   createAgent,
   getAgentByAssistantId,
-  getAgentByPhone,
   addFilesToAgent as mongoAddFilesToAgent,
   createThread,
 } from "./mongoService";
@@ -23,15 +22,6 @@ export async function createUserAssistant(
   userEmail: string,
   instructions?: string
 ): Promise<AssistantResponse> {
-  // Check if agent already exists (only if phone is provided)
-  if (phone) {
-    const existingAgent: Agent | null = await getAgentByPhone(phone);
-    if (existingAgent) {
-      return {
-        assistantId: existingAgent.assistantId,
-      };
-    }
-  }
 
   const vectorStore = await openai.vectorStores.create({
     name: phone ? `Vector store for ${phone}` : "Vector store",
@@ -44,8 +34,8 @@ export async function createUserAssistant(
     name: phone ? `Assistant for ${phone}` : "Assistant",
     instructions:
       instructions ||
-      "You are a helpful assistant that can answer questions based on the provided documents.",
-    model: "gpt-5",
+      "You are a helpful assistant that can answer questions based on the provided documents and context.",
+    model: "gpt-4.1",
     tools: [{ type: "file_search" }],
     tool_resources: {
       file_search: {
