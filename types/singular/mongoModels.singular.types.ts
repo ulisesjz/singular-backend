@@ -6,7 +6,7 @@ export interface Question {
     title: string;
     subtitle?: string;
     placeholder?: string;
-    options?: string[];
+    options?: { title: string, img?: string }[];
     required?: boolean;
     orderNumber?: number;
     createdAt: Date;
