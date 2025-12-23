@@ -35,7 +35,7 @@ export async function createUserAssistant(
     instructions:
       instructions ||
       "You are a helpful assistant that can answer questions based on the provided documents and context.",
-    model: "gpt-4.1",
+    model: "gpt-5-mini",
     tools: [{ type: "file_search" }],
     tool_resources: {
       file_search: {
@@ -121,6 +121,13 @@ export async function handleAssistantReply({
     content: userMessage,
   });
 
+  console.log("[chat/run] Message created for OpenAI", {
+    assistantId,
+    threadId,
+    promptPreview: userMessage.substring(0, 200),
+    promptLength: userMessage.length,
+  });
+
   console.log("Thread messages:", threadMessages);
 
   // Run assistant on thread
@@ -150,6 +157,12 @@ export async function handleAssistantReply({
       console.log("Run status:", completedRun.status);
 
       if (completedRun.status === "completed") {
+        console.log("[chat/run] Completed run", {
+          assistantId,
+          threadId,
+          runId: completedRun.id,
+          model: completedRun.model ?? "unknown",
+        });
         break;
       }
 
@@ -210,6 +223,15 @@ export async function handleAssistantReplyCardsDetails({
   const threadMessages = await openai.beta.threads.messages.create(threadId, {
     role: "user",
     content: userMessage,
+  });
+
+  console.log("[cards/run] Message created for OpenAI", {
+    assistantId,
+    threadId,
+    promptPreview: userMessage.substring(0, 200),
+    promptLength: userMessage.length,
+    instructionPreview: instruction.substring(0, 200),
+    instructionLength: instruction.length,
   });
 
   console.log("Thread messages:", threadMessages);
@@ -273,6 +295,12 @@ export async function handleAssistantReplyCardsDetails({
       console.log("Run status:", completedRun.status);
 
       if (completedRun.status === "completed") {
+        console.log("[cards/run] Completed run", {
+          assistantId,
+          threadId,
+          runId: completedRun.id,
+          model: completedRun.model ?? "unknown",
+        });
         break;
       }
 
