@@ -95,6 +95,8 @@ router.get(
         return;
       }
 
+      console.log("[formatted-answers] Incoming request", { userId });
+
       const user = await getUserById(userId);
       if (!user) {
         res.status(404).json({ error: "User not found" });
@@ -109,6 +111,13 @@ router.get(
           .json({ error: "User not found or no answers available." });
         return;
       }
+
+      console.log("[formatted-answers] Returning summary", {
+        userId,
+        length: formattedAnswers.length,
+        preview: formattedAnswers.substring(0, 120),
+      });
+
       res.json({ formattedAnswers });
     } catch (err) {
       console.error("Formatted answers and question error:", err);
@@ -222,6 +231,7 @@ El campo "prompt" de cada tarjeta debe parecer escrito por el propio estudiante,
 - Surprise Me!: intención personal de explorar el nuevo tema, escrita como un deseo o curiosidad genuina por probar o entender.
 
 El prompt debe sonar como si el usuario escribiera en primera persona con su interés real en mente.
+Los temas de las tarjetas deben ser simples y coherentes con la edad e intereses del estudiante, no incluyas temas complejos o avanzados. Algo que un joven pueda entender y aplicar en su vida cotidiana.
 
 ---
 ⚠️ IMPORTANTE:
